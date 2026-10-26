@@ -223,22 +223,47 @@ services:
 pip install -r requirements.txt
 
 # Pornire Gateway & Storage Engine
-python industrial_gateway.py
+python gateway/industrial_gateway.py
 
 # Pornire Server MCP
-python mcp_server.py
+python mcp/mcp_server.py
 ```
 
-### Pasul 3: Redarea Telemetriei și Logurilor de la Edge (Raspberry Pi)
+### Pasul 3: Redarea Telemetriei și Logurilor de la Edge (Simulare / Raspberry Pi)
 ```bash
-# Pornire Replay Telemetrie
-python telemetry_replay.py --config config_edge_pi2.json
-
-# Pornire Log Shipper
-python os_log_shipper.py --config config_edge_pi2.json
+# Rulare simulator Edge complet (Nodurile Pi #2 și Pi #3)
+python edge/edge_simulator.py --speed 2.0
 ```
 
 ### Pasul 4: Consola SOC Streamlit
 ```bash
-streamlit run audit_dashboard.py
+streamlit run dashboard/audit_dashboard.py
 ```
+
+---
+
+## 8. Referințe Bibliografice și Resurse Tehnice
+
+### 8.1. Setul de Date TON_IoT & Securitate IIoT
+1. **Al-Hawawreh, M., Moustafa, N., & Sitnikova, E. (2020)**. *Developing a realistic benchmark dataset for evaluating IoT/IIoT security systems: The TON_IoT dataset*. Future Generation Computer Systems, 107, 747-762. [DOI: 10.1016/j.future.2020.02.049](https://doi.org/10.1016/j.future.2020.02.049)
+2. **Moustafa, N. (2019)**. *A new distributed architecture for evaluating AI-based security systems at the big data level in Internet of Things*. IEEE Access, 7, 61501-61516. [DOI: 10.1109/ACCESS.2019.2915958](https://doi.org/10.1109/ACCESS.2019.2915958)
+3. **Booij, T. M., Chiscop, I., Meeuwissen, E., Moustafa, N., & den Hartog, F. T. (2021)**. *ToN_IoT: The role of heterogeneity and the need for standardization of features and attack types in IoT network intrusion datasets*. IEEE Internet of Things Journal, 9(1), 485-496. [DOI: 10.1109/JIOT.2021.3108398](https://doi.org/10.1109/JIOT.2021.3108398)
+4. **UNSW Canberra Cyber**. *The TON_IoT Datasets Repository*. Research Data UNSW. [https://research.unsw.edu.au/projects/toniot-datasets](https://research.unsw.edu.au/projects/toniot-datasets)
+
+### 8.2. Standarde și Protocoale Industriale (OT / ICS)
+5. **Modbus Organization (2012)**. *Modbus Application Protocol Specification V1.1b3*. Modbus-IDA Technical Resources. [https://modbus.org/specs.php](https://modbus.org/specs.php)
+6. **OASIS Standard (2019)**. *MQTT Version 5.0*. OASIS Open Standards. [https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html)
+7. **IEC 62443-4-2 (2019)**. *Security for industrial automation and control systems – Part 4-2: Technical security requirements for IACS components*. International Electrotechnical Commission.
+8. **MITRE ATT&CK® for Industrial Control Systems (ICS)**. *Adversary Tactics, Techniques, and Common Knowledge for OT/ICS Networks*. MITRE Corporation. [https://attack.mitre.org/matrices/ics/](https://attack.mitre.org/matrices/ics/)
+
+### 8.3. Arhitecturi Agentice, GraphRAG și Model Context Protocol (MCP)
+9. **Anthropic (2024)**. *Model Context Protocol (MCP) Specification*. Open protocol for connecting LLMs to external systems and tools. [https://modelcontextprotocol.io](https://modelcontextprotocol.io)
+10. **Edge, D., Trinh, H., Cheng, N., et al. (2024)**. *From Local to Global: A Graph RAG Approach to Query-Focused Summarization*. arXiv:2404.16130. [https://arxiv.org/abs/2404.16130](https://arxiv.org/abs/2404.16130)
+11. **Neo4j Inc. (2024)**. *GraphRAG with Knowledge Graphs: Integrating Graph Database Context into Large Language Models*. [https://neo4j.com/developer-blog/describing-graphrag/](https://neo4j.com/developer-blog/describing-graphrag/)
+
+### 8.4. Platforme de Ingestie, Persistență și Tehnologii Open Source
+12. **InfluxData (2023)**. *InfluxDB v2 Documentation: High-performance Time Series Storage and Flux Analytics*. [https://docs.influxdata.com/influxdb/v2/](https://docs.influxdata.com/influxdb/v2/)
+13. **Eclipse Foundation**. *Eclipse Mosquitto: An Open Source MQTT v5.0/v3.1.1 Broker*. [https://mosquitto.org/](https://mosquitto.org/)
+14. **Hagberg, A. A., Schult, D. A., & Swart, P. J. (2008)**. *Exploring Network Structure, Dynamics, and Function using NetworkX*. Proceedings of the 7th Python in Science Conference (SciPy 2008).
+15. **Streamlit Inc.**. *Streamlit Documentation: Fast interactive analytical web applications for data science and machine learning*. [https://docs.streamlit.io/](https://docs.streamlit.io/)
+

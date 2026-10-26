@@ -218,3 +218,34 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+# SQLite databases & local runtime storage
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+storage/*.db
+
+# Large IoT/IIoT Datasets (TON_IoT files exceed GitHub's 100MB limit)
+data/
+*.pcap
+*.csv.gz
+*.tar.gz
+
+# Local Docker persistent volume mounts
+mosquitto/data/
+mosquitto/log/
+influxdb_data/
+neo4j_data/
+neo4j/data/
+neo4j/logs/
+
+# IDE & Editor settings
+.vscode/
+.idea/
+
+# Operating System metadata
+Thumbs.db
+desktop.ini
+.DS_Store
