@@ -1,0 +1,114 @@
+{
+  "scenario_name": "Multi-Stage Industrial Lateral Movement & Modbus Injection",
+  "dataset_reference": "TON_IoT",
+  "timeline": [
+    {
+      "time_seconds": 0,
+      "phase": "BASELINE",
+      "description": "Toate cele 7 dispozitive funcționează în parametri nominali. Trafic OS normal.",
+      "actions": []
+    },
+    {
+      "time_seconds": 20,
+      "phase": "IT_BRUTEFORCE",
+      "description": "Atacator extern (198.51.100.23) lansează Brute Force SSH pe Frigiderul Industrial (192.168.1.45).",
+      "actions": [
+        {
+          "type": "os_log",
+          "target_device": "frigider",
+          "event_type": "ssh_failed",
+          "source_ip": "198.51.100.23",
+          "user": "root",
+          "message": "Failed password for root from 198.51.100.23 port 41288 ssh2",
+          "burst_count": 8
+        }
+      ]
+    },
+    {
+      "time_seconds": 35,
+      "phase": "IT_COMPROMISE",
+      "description": "Autentificare SSH reușită pe Frigider (credite compromise).",
+      "actions": [
+        {
+          "type": "os_log",
+          "target_device": "frigider",
+          "event_type": "ssh_accepted",
+          "source_ip": "198.51.100.23",
+          "user": "support",
+          "message": "Accepted password for support from 198.51.100.23 port 44211 ssh2"
+        },
+        {
+          "type": "os_log",
+          "target_device": "frigider",
+          "event_type": "privilege_escalation",
+          "source_ip": "198.51.100.23",
+          "user": "support",
+          "message": "sudo: support : TTY=pts/0 ; PWD=/home/support ; USER=root ; COMMAND=/bin/bash"
+        }
+      ]
+    },
+    {
+      "time_seconds": 45,
+      "phase": "LATERAL_SCAN",
+      "description": "Nodul Frigider compromis începe scanarea rețelei OT către controller-ul Modbus PLC (192.168.1.10).",
+      "actions": [
+        {
+          "type": "os_log",
+          "target_device": "frigider",
+          "event_type": "network_recon",
+          "source_ip": "192.168.1.45",
+          "target_ip": "192.168.1.10",
+          "message": "SYN stealth scan initiated towards 192.168.1.10 port 502 (modbus)"
+        }
+      ]
+    },
+    {
+      "time_seconds": 60,
+      "phase": "OT_SABOTAGE",
+      "description": "Comandă Modbus injectată de la 192.168.1.45 în registrul PLC 40001; Compresor frigorific oprit forțat.",
+      "actions": [
+        {
+          "type": "telemetry_override",
+          "target_device": "modbus",
+          "modifications": {
+            "register_40001": 9999,
+            "coil_1": 0,
+            "coil_2": 1,
+            "injection_flag": 1
+          }
+        },
+        {
+          "type": "telemetry_override",
+          "target_device": "frigider",
+          "modifications": {
+            "compressor_state": 0,
+            "temperature_drift_rate": 0.8
+          }
+        },
+        {
+          "type": "os_log",
+          "target_device": "modbus",
+          "event_type": "modbus_tampering",
+          "source_ip": "192.168.1.45",
+          "target_ip": "192.168.1.10",
+          "message": "Modbus Function Code 16 (Write Multiple Registers) received from 192.168.1.45 - Address 40001 set to 9999"
+        }
+      ]
+    },
+    {
+      "time_seconds": 75,
+      "phase": "PHYSICAL_BREACH",
+      "description": "Acces neautorizat detectat la ușa cargo garaj.",
+      "actions": [
+        {
+          "type": "telemetry_override",
+          "target_device": "garaj",
+          "modifications": {
+            "door_state": "open",
+            "unauthorized": 1
+          }
+        }
+      ]
+    }
+  ]
+}
